@@ -1,0 +1,121 @@
+#include <iostream>
+using namespace std;
+
+
+
+
+// global variables
+const int SIZE = 8;
+char board [SIZE][SIZE];
+int solutioncount = 0;
+
+
+// resetBoard(char board[size][size]) assigns every element '-'
+void resetBoard(char b[SIZE][SIZE]){
+   for(int r = 0; r<SIZE; r++){
+       for(int c = 0; c<SIZE; c++){
+           b[r][c]    = '-';
+       }
+   }
+}
+
+
+
+
+void printBoard(char b[SIZE][SIZE]){
+   cout << "Soultion:" << solutioncount << endl;
+   cout << "  ";
+   for(int i = 0; i < SIZE; i++){
+       cout << i <<" ";
+   }
+   cout <<endl;
+   for(int r = 0; r<SIZE; r++){
+       cout << r <<" ";
+       for(int c = 0; c<SIZE; c++){
+           cout << b[r][c]    <<" ";
+       }
+       cout << endl;
+   }
+}
+
+
+
+
+// checks if b[row][col] is safe from another 'Q'ueen
+// to its left area of the spot
+
+
+
+
+bool is_Safe(char b[SIZE][SIZE], int row, int col){
+
+
+
+
+   // checking directly left
+
+
+
+
+   for (int c=col; c>=0; c--){
+       if (b[row][c]=='Q')
+           return false;
+   }
+
+
+
+
+   // checking downLeft
+
+
+
+
+   for (int r=row, c=col; r<SIZE && c>=0; r++, c--){
+       if (b[r][c]=='Q')
+           return false;
+   }
+
+
+
+
+   // checking upLeft
+
+
+
+
+   for (int r=row, c=col; r>=0 && c>=0; r--, c--){
+       if (b[r][c]=='Q')
+           return false;
+   }
+   return true;
+}
+
+
+
+
+void solveNQueens(char b[SIZE][SIZE], int col) {
+   if (col == SIZE) {
+       solutioncount++;
+       printBoard(b);
+       cout << endl;
+   }
+
+
+   for (int row = 0; row < SIZE; row++) {
+       if (is_Safe(b, row, col)) {
+           b[row][col] = 'Q';
+           solveNQueens(b, col + 1);
+           b[row][col] = '-';
+       }
+   }
+}
+
+int main(){
+   resetBoard(board);
+   solveNQueens(board,0);
+
+
+
+
+}
+
